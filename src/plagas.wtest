@@ -1,0 +1,53 @@
+import Plagas.*
+import elementos.*
+import Barrios.*
+
+describe "testX" {
+    
+    /**Elementos*/
+    const casaElegante    = new Hogar(nivelDeMugre = 1, confort = 100)
+    const casaAbandonada  = new Hogar(nivelDeMugre = 150, confort = 5)
+    const huertaDeTomates = new Huerta(capacidadDeProduccion = 200)
+    const huertaDePapas   = new Huerta(capacidadDeProduccion = 150)
+    const peroCallegero   = new Mascota(salud = 250)
+    const gatoCasero      = new Mascota(salud = 500)
+    
+    /**Plagas */
+    const cucarachas = new PlagaDeCucarachas(poblacion = 100, pesoPormedio = 150)
+    const moszquitos = new PlagaDeMozquitos(poblacion = 100)
+    const pulgas     = new PlagaDePulgas(poblacion = 100)
+    const garrapatas = new PlagaDeGarrapatas(poblacion = 50)
+    
+    /**Barrios */
+	const barrioLaJuanita = new Barrio(elementos = [casaAbandonada, huertaDeTomates, gatoCasero])
+	const barrioMitre     = new Barrio(elementos = [casaElegante, huertaDePapas, peroCallegero])
+    
+    fixture {
+    	cucarachas.atacarElemento(casaElegante)
+    	moszquitos.atacarElemento(huertaDePapas)
+    	garrapatas.atacarElemento(peroCallegero)
+    	pulgas.atacarElemento(gatoCasero)
+    	
+    }
+    
+    test "Elementos buenos y malos" {
+    	
+    	assert.equals(false, casaElegante.esBueno())
+    	assert.equals(true, huertaDeTomates.esBueno())
+    	assert.equals(true, gatoCasero.esBueno())
+    	assert.equals(false, casaAbandonada.esBueno())
+    	assert.equals(true, huertaDePapas.esBueno())
+    	assert.equals(false, peroCallegero.esBueno())
+    }
+    
+    test "Barrios" {
+    	assert.equals(true, barrioLaJuanita.esCopado())
+    	assert.equals(false, barrioMitre.esCopado())
+    }
+    
+    
+}
+
+
+
+
